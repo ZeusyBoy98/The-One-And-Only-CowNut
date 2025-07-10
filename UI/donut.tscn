@@ -1,0 +1,12 @@
+[gd_scene load_steps=2 format=3 uid="uid://ngmcb666eheb"]
+
+[ext_resource type="Texture2D" uid="uid://dn0dlnwrqyun4" path="res://Assets/Other/donut.png" id="1_s46xv"]
+
+[node name="Donut" type="TextureRect"]
+texture_filter = 1
+offset_right = 40.0
+offset_bottom = 40.0
+texture = ExtResource("1_s46xv")
+expand_mode = 2
+stretch_mode = 5
+flip_h = true
