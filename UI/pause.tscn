@@ -1,0 +1,72 @@
+[gd_scene load_steps=6 format=3 uid="uid://djde280y430sa"]
+
+[ext_resource type="Script" uid="uid://d2sr3w4vxmuxo" path="res://UI/paused.gd" id="1_jixca"]
+[ext_resource type="FontFile" uid="uid://cred5kkuhlamq" path="res://RobotoMono-Regular.ttf" id="1_mbtqa"]
+[ext_resource type="Script" uid="uid://bfsrbukmda0q3" path="res://UI/button.gd" id="3_jl6cd"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_x5u11"]
+bg_color = Color(0.575232, 0.58026, 0.768761, 1)
+border_width_left = 10
+border_width_top = 10
+border_width_right = 10
+border_width_bottom = 10
+corner_radius_top_left = 20
+corner_radius_top_right = 20
+corner_radius_bottom_right = 20
+corner_radius_bottom_left = 20
+
+[sub_resource type="LabelSettings" id="LabelSettings_ivbrw"]
+font = ExtResource("1_mbtqa")
+font_size = 66
+
+[node name="paused" type="CanvasLayer"]
+script = ExtResource("1_jixca")
+
+[node name="PanelContainer" type="PanelContainer" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_x5u11")
+
+[node name="MarginContainer" type="MarginContainer" parent="PanelContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 40
+theme_override_constants/margin_top = 40
+theme_override_constants/margin_right = 40
+theme_override_constants/margin_bottom = 40
+
+[node name="Rows" type="VBoxContainer" parent="PanelContainer/MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 100
+
+[node name="Title" type="Label" parent="PanelContainer/MarginContainer/Rows"]
+layout_mode = 2
+text = "Paused"
+label_settings = SubResource("LabelSettings_ivbrw")
+horizontal_alignment = 1
+
+[node name="CenterContainer" type="CenterContainer" parent="PanelContainer/MarginContainer/Rows"]
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer/MarginContainer/Rows/CenterContainer"]
+layout_mode = 2
+theme_override_constants/separation = 20
+
+[node name="Resume" type="Button" parent="PanelContainer/MarginContainer/Rows/CenterContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("1_mbtqa")
+theme_override_font_sizes/font_size = 40
+text = "  RESUME  "
+script = ExtResource("3_jl6cd")
+
+[node name="Quit" type="Button" parent="PanelContainer/MarginContainer/Rows/CenterContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("1_mbtqa")
+theme_override_font_sizes/font_size = 40
+text = "QUIT"
+script = ExtResource("3_jl6cd")
+
+[connection signal="pressed" from="PanelContainer/MarginContainer/Rows/CenterContainer/VBoxContainer/Resume" to="." method="_on_resume_pressed"]
+[connection signal="pressed" from="PanelContainer/MarginContainer/Rows/CenterContainer/VBoxContainer/Quit" to="." method="_on_quit_pressed"]

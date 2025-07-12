@@ -1,15 +1,23 @@
 extends CharacterBody2D
+class_name Player
 @onready var sprite = $AnimatedSprite2D
-@export var Bullet : PackedScene
+@export var bullet : PackedScene
 @export var max_health := 5
 
-const SPEED = 300.0
+var SPEED = 300.0
 const JUMP_VELOCITY = -400.0
 var is_playing_temp_anim = false
+var dash_cooldown = false
+var shoot_unlocked = true
+var jump = 1
 signal health_changed(current_health: int)
 var current_health := max_health
 
 func _ready():
+	if Global.saved_data != null:
+		position.x = Global.saved_data.pos_x
+		position.y = Global.saved_data.pos_y
+		current_health = Global.saved_data.current_health
 	emit_signal("health_changed", current_health)
 
 func take_damage(amount: int):
@@ -29,7 +37,7 @@ func play_once(animation_name: String):
 		sprite.connect("animation_finished", Callable(self, "_on_animated_sprite_2d_animation_finished"))
 		
 func shoot():
-	var b = Bullet.instantiate()
+	var b = bullet.instantiate()
 	b.transform = $Marker2D.global_transform
 	b.direction = 1 if $AnimatedSprite2D.flip_h else -1
 	owner.add_child(b)
@@ -50,9 +58,18 @@ func _physics_process(delta: float) -> void:
 		
 		if Input.is_action_just_pressed("jump"):
 			if is_on_floor():
+				jump = 1
 				velocity.y = JUMP_VELOCITY
 				if not is_playing_temp_anim:
 					sprite.play("jump")
+					get_tree().create_timer(0.2).timeout
+					sprite.stop()
+			elif jump == 1:
+				#jump = 2
+				velocity.y = JUMP_VELOCITY
+				if not is_playing_temp_anim:
+					sprite.play("jump")
+					get_tree().create_timer(0.2).timeout
 					sprite.stop()
 			elif is_on_wall():
 				velocity.y = JUMP_VELOCITY
@@ -74,13 +91,27 @@ func _physics_process(delta: float) -> void:
 			else:
 				if not is_playing_temp_anim:
 					sprite.play("idle")
-				
-		if Input.is_action_just_pressed("shoot"):
-			if not is_on_wall():
-				if current_health > 0:
-					play_once("shoot")
-					shoot()
-					take_damage(1)
+		if shoot_unlocked:
+			if Input.is_action_just_pressed("shoot"):
+				if not is_on_wall():
+					print(current_health)
+					if current_health > 0:
+						play_once("shoot")
+						shoot()
+						take_damage(1)
+					
+		if Input.is_action_just_pressed("dash"):
+			if not dash_cooldown:
+				SPEED = 10000
+				sprite.play("dash")
+				is_playing_temp_anim = true
+				await get_tree().create_timer(0.2).timeout
+				SPEED = 300
+				is_playing_temp_anim = false
+				dash_cooldown = true
+				#await get_tree().create_timer(0.5).timeout
+				dash_cooldown = false
+			
 
 		move_and_slide()
 	else:
@@ -90,3 +121,8 @@ func _physics_process(delta: float) -> void:
 func _on_animated_sprite_2d_animation_finished() -> void:
 	is_playing_temp_anim = false
 	sprite.play("idle")
+
+
+func _on_area_2d_body_entered(body: Node2D) -> void:
+	if body.is_in_group("player"):
+		take_damage(current_health)
