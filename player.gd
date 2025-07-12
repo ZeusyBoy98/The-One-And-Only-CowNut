@@ -1,14 +1,18 @@
 extends CharacterBody2D
 class_name Player
 @onready var sprite = $AnimatedSprite2D
+@onready var camera = $Camera2D
 @export var bullet : PackedScene
 @export var max_health := 5
 
 var SPEED = 300.0
 const JUMP_VELOCITY = -400.0
+var camera_down = false
 var is_playing_temp_anim = false
 var dash_cooldown = false
-var shoot_unlocked = true
+var shoot_unlocked = false
+var double_jump_unlocked = false
+var dash_unlocked = false
 var jump = 1
 signal health_changed(current_health: int)
 var current_health := max_health
@@ -65,12 +69,13 @@ func _physics_process(delta: float) -> void:
 					get_tree().create_timer(0.2).timeout
 					sprite.stop()
 			elif jump == 1:
-				#jump = 2
-				velocity.y = JUMP_VELOCITY
-				if not is_playing_temp_anim:
-					sprite.play("jump")
-					get_tree().create_timer(0.2).timeout
-					sprite.stop()
+				if double_jump_unlocked:
+					jump = 2
+					velocity.y = JUMP_VELOCITY
+					if not is_playing_temp_anim:
+						sprite.play("jump")
+						get_tree().create_timer(0.2).timeout
+						sprite.stop()
 			elif is_on_wall():
 				velocity.y = JUMP_VELOCITY
 				if not is_playing_temp_anim:
@@ -101,17 +106,27 @@ func _physics_process(delta: float) -> void:
 						take_damage(1)
 					
 		if Input.is_action_just_pressed("dash"):
-			if not dash_cooldown:
-				SPEED = 10000
-				sprite.play("dash")
-				is_playing_temp_anim = true
-				await get_tree().create_timer(0.2).timeout
-				SPEED = 300
-				is_playing_temp_anim = false
-				dash_cooldown = true
-				#await get_tree().create_timer(0.5).timeout
-				dash_cooldown = false
-			
+			if dash_unlocked:
+				if not dash_cooldown:
+					SPEED = 900
+					sprite.play("dash")
+					is_playing_temp_anim = true
+					await get_tree().create_timer(0.2).timeout
+					SPEED = 300
+					is_playing_temp_anim = false
+					dash_cooldown = true
+					await get_tree().create_timer(0.5).timeout
+					dash_cooldown = false
+		
+		if Input.is_action_just_pressed("down"):
+			if not camera_down:
+				camera_down = true
+				camera.position_smoothing_enabled = true
+				camera.position.y += 200
+				await get_tree().create_timer(1).timeout
+				camera.position.y -= 200
+				camera.position_smoothing_enabled = false
+				camera_down = false
 
 		move_and_slide()
 	else:

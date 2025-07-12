@@ -1,7 +1,8 @@
-[gd_scene load_steps=5 format=3 uid="uid://cebrykndv6rk7"]
+[gd_scene load_steps=6 format=3 uid="uid://cebrykndv6rk7"]
 
 [ext_resource type="FontFile" uid="uid://cred5kkuhlamq" path="res://RobotoMono-Regular.ttf" id="1_mbtqa"]
 [ext_resource type="Script" uid="uid://denuixk30oqiu" path="res://UI/ded.gd" id="1_x5u11"]
+[ext_resource type="Script" uid="uid://bfsrbukmda0q3" path="res://UI/button.gd" id="3_ivbrw"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_x5u11"]
 bg_color = Color(0.575232, 0.58026, 0.768761, 1)
@@ -58,12 +59,14 @@ layout_mode = 2
 theme_override_fonts/font = ExtResource("1_mbtqa")
 theme_override_font_sizes/font_size = 40
 text = "  RESTART  "
+script = ExtResource("3_ivbrw")
 
 [node name="Quit" type="Button" parent="PanelContainer/MarginContainer/Rows/CenterContainer/VBoxContainer"]
 layout_mode = 2
 theme_override_fonts/font = ExtResource("1_mbtqa")
 theme_override_font_sizes/font_size = 40
 text = "QUIT"
+script = ExtResource("3_ivbrw")
 
 [connection signal="pressed" from="PanelContainer/MarginContainer/Rows/CenterContainer/VBoxContainer/Restart" to="." method="_on_restart_pressed"]
 [connection signal="pressed" from="PanelContainer/MarginContainer/Rows/CenterContainer/VBoxContainer/Quit" to="." method="_on_quit_pressed"]
