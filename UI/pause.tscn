@@ -22,6 +22,14 @@ font_size = 66
 [node name="paused" type="CanvasLayer"]
 script = ExtResource("1_jixca")
 
+[node name="Label" type="Label" parent="."]
+z_index = 5
+offset_left = 860.86
+offset_top = 156.96
+offset_right = 1068.28
+offset_bottom = 194.96
+text = "Game Automatically Saved"
+
 [node name="PanelContainer" type="PanelContainer" parent="."]
 anchors_preset = 15
 anchor_right = 1.0

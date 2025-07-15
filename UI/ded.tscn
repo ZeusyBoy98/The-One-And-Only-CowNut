@@ -20,6 +20,7 @@ font = ExtResource("1_mbtqa")
 font_size = 66
 
 [node name="ded" type="CanvasLayer"]
+process_mode = 3
 script = ExtResource("1_x5u11")
 
 [node name="PanelContainer" type="PanelContainer" parent="."]
