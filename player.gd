@@ -136,11 +136,10 @@ func _physics_process(delta: float) -> void:
 		move_and_slide()
 		for i in range(get_slide_collision_count()):
 			var collision := get_slide_collision(i)
-			print(collision)
 			if collision and collision.get_collider() == spikes and not spike_cooldown:
 				spike_cooldown = true
 				take_damage(1)
-				await get_tree().create_timer(1.0).timeout
+				await get_tree().create_timer(0.2).timeout
 				spike_cooldown = false
 			elif collision and collision.get_collider() == healer and not healer_cooldown:
 				healer_cooldown = true

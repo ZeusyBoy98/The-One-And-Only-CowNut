@@ -4,14 +4,6 @@ func _on_quit_pressed() -> void:
 	get_tree().quit()
 
 func _on_new_pressed() -> void:
-	if Global.level_instance != null:
-		if Global.level_instance.is_inside_tree():
-			Global.level_instance.queue_free()
-		Global.level_instance = null
-	
-	get_tree().paused = false
-	print_tree_pretty()
-
 	get_tree().change_scene_to_file("res://level.tscn")
 
 func _on_load_pressed() -> void:
