@@ -4,6 +4,7 @@ class_name Player
 @onready var camera = $Camera2D
 @onready var collider = $CollisionShape2D
 @onready var spikes = get_parent().get_node("SpikeLayer")
+@onready var healer = get_parent().get_node("HealLayer")
 @export var bullet : PackedScene
 @export var max_health := 5
 
@@ -12,6 +13,7 @@ const JUMP_VELOCITY = -400.0
 var camera_down = false
 var is_playing_temp_anim = false
 var spike_cooldown := false
+var healer_cooldown := false
 var dash_cooldown = false
 var shoot_unlocked = false
 var double_jump_unlocked = false
@@ -134,11 +136,17 @@ func _physics_process(delta: float) -> void:
 		move_and_slide()
 		for i in range(get_slide_collision_count()):
 			var collision := get_slide_collision(i)
+			print(collision)
 			if collision and collision.get_collider() == spikes and not spike_cooldown:
 				spike_cooldown = true
 				take_damage(1)
 				await get_tree().create_timer(1.0).timeout
 				spike_cooldown = false
+			elif collision and collision.get_collider() == healer and not healer_cooldown:
+				healer_cooldown = true
+				heal(max_health)
+				await get_tree().create_timer(3.0).timeout
+				healer_cooldown = false
 	else:
 		get_tree().change_scene_to_file("res://UI/ded.tscn")
 

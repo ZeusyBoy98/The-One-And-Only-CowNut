@@ -12,9 +12,7 @@ func _on_new_pressed() -> void:
 	get_tree().paused = false
 	print_tree_pretty()
 
-	Global.level_instance = preload("res://level.tscn").instantiate()
-	get_tree().get_root().add_child(Global.level_instance)
-	self.queue_free()
+	get_tree().change_scene_to_file("res://level.tscn")
 
 func _on_load_pressed() -> void:
 	SaveLoad._load()
