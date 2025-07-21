@@ -139,7 +139,7 @@ func _physics_process(delta: float) -> void:
 			if collision and collision.get_collider() == spikes and not spike_cooldown:
 				spike_cooldown = true
 				take_damage(1)
-				await get_tree().create_timer(0.2).timeout
+				await get_tree().create_timer(0.1).timeout
 				spike_cooldown = false
 			elif collision and collision.get_collider() == healer and not healer_cooldown:
 				healer_cooldown = true

@@ -1,4 +1,4 @@
-[gd_scene load_steps=6 format=3 uid="uid://djde280y430sa"]
+[gd_scene load_steps=7 format=3 uid="uid://dlpnquhllfwnq"]
 
 [ext_resource type="Script" uid="uid://d2sr3w4vxmuxo" path="res://UI/paused.gd" id="1_jixca"]
 [ext_resource type="FontFile" uid="uid://cred5kkuhlamq" path="res://RobotoMono-Regular.ttf" id="1_mbtqa"]
@@ -19,16 +19,13 @@ corner_radius_bottom_left = 20
 font = ExtResource("1_mbtqa")
 font_size = 66
 
-[node name="paused" type="CanvasLayer"]
-script = ExtResource("1_jixca")
+[sub_resource type="LabelSettings" id="LabelSettings_jl6cd"]
+font = ExtResource("1_mbtqa")
+font_size = 31
 
-[node name="Label" type="Label" parent="."]
-z_index = 5
-offset_left = 860.86
-offset_top = 156.96
-offset_right = 1068.28
-offset_bottom = 194.96
-text = "Game Automatically Saved"
+[node name="pause" type="CanvasLayer"]
+process_mode = 3
+script = ExtResource("1_jixca")
 
 [node name="PanelContainer" type="PanelContainer" parent="."]
 anchors_preset = 15
@@ -62,11 +59,17 @@ layout_mode = 2
 layout_mode = 2
 theme_override_constants/separation = 20
 
+[node name="Saved" type="Label" parent="PanelContainer/MarginContainer/Rows/CenterContainer/VBoxContainer"]
+layout_mode = 2
+text = "Game Automatically Saved"
+label_settings = SubResource("LabelSettings_jl6cd")
+horizontal_alignment = 1
+
 [node name="Resume" type="Button" parent="PanelContainer/MarginContainer/Rows/CenterContainer/VBoxContainer"]
 layout_mode = 2
 theme_override_fonts/font = ExtResource("1_mbtqa")
 theme_override_font_sizes/font_size = 40
-text = "  RESUME  "
+text = "RESUME"
 script = ExtResource("3_jl6cd")
 
 [node name="Quit" type="Button" parent="PanelContainer/MarginContainer/Rows/CenterContainer/VBoxContainer"]

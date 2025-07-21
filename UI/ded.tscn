@@ -55,6 +55,13 @@ layout_mode = 2
 layout_mode = 2
 theme_override_constants/separation = 20
 
+[node name="Continue" type="Button" parent="PanelContainer/MarginContainer/Rows/CenterContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("1_mbtqa")
+theme_override_font_sizes/font_size = 40
+text = "  CONTINUE  "
+script = ExtResource("3_ivbrw")
+
 [node name="Restart" type="Button" parent="PanelContainer/MarginContainer/Rows/CenterContainer/VBoxContainer"]
 layout_mode = 2
 theme_override_fonts/font = ExtResource("1_mbtqa")
@@ -69,5 +76,6 @@ theme_override_font_sizes/font_size = 40
 text = "QUIT"
 script = ExtResource("3_ivbrw")
 
+[connection signal="pressed" from="PanelContainer/MarginContainer/Rows/CenterContainer/VBoxContainer/Continue" to="." method="_on_continue_pressed"]
 [connection signal="pressed" from="PanelContainer/MarginContainer/Rows/CenterContainer/VBoxContainer/Restart" to="." method="_on_restart_pressed"]
 [connection signal="pressed" from="PanelContainer/MarginContainer/Rows/CenterContainer/VBoxContainer/Quit" to="." method="_on_quit_pressed"]

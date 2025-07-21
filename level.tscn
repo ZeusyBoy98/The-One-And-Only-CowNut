@@ -1,4 +1,4 @@
-[gd_scene load_steps=72 format=4 uid="uid://c1wo34nkjdnv"]
+[gd_scene load_steps=74 format=4 uid="uid://c1wo34nkjdnv"]
 
 [ext_resource type="Script" uid="uid://yh5e6ffctmih" path="res://player.gd" id="1_h2yge"]
 [ext_resource type="Script" uid="uid://bs2ljannjsjl5" path="res://level.gd" id="1_y3bce"]
@@ -31,7 +31,7 @@
 [ext_resource type="Texture2D" uid="uid://bu7avi45ptt1o" path="res://Assets/Scenery/heal1.png" id="22_sl4om"]
 [ext_resource type="Script" uid="uid://bduyf1kfn5l6u" path="res://parallax_background.gd" id="24_aoqsc"]
 [ext_resource type="Texture2D" uid="uid://nu86yvi8fnhs" path="res://Assets/Skies/Forest/background.png" id="28_mleqk"]
-[ext_resource type="PackedScene" uid="uid://djde280y430sa" path="res://UI/pause.tscn" id="32_sl4om"]
+[ext_resource type="PackedScene" uid="uid://dlpnquhllfwnq" path="res://UI/pause.tscn" id="32_sl4om"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_82xsv"]
 atlas = ExtResource("2_kek77")
@@ -368,13 +368,18 @@ a = Vector2(-2067.65, 2077.94)
 b = Vector2(42033.8, 2147.06)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_2h3vt"]
-size = Vector2(108, 359.5)
+size = Vector2(116, 393.75)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_sl4om"]
+size = Vector2(3429, 802)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_dtg4e"]
+size = Vector2(104, 387)
 
 [node name="Node" type="Node"]
 script = ExtResource("1_y3bce")
 
 [node name="paused" parent="." instance=ExtResource("32_sl4om")]
-process_mode = 3
 
 [node name="Player" type="CharacterBody2D" parent="." groups=["Persist", "player"]]
 texture_filter = 1
@@ -692,13 +697,28 @@ region_rect = Rect2(0, 0, 5000, 135)
 position = Vector2(21963, 157.75)
 shape = SubResource("RectangleShape2D_2h3vt")
 
+[node name="ForestAgain" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ForestAgain"]
+position = Vector2(23720.5, -62)
+shape = SubResource("RectangleShape2D_sl4om")
+
 [node name="GrassAgain" type="Area2D" parent="."]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="GrassAgain"]
-position = Vector2(21793, 158)
-shape = SubResource("RectangleShape2D_2h3vt")
+position = Vector2(21789, 158.5)
+shape = SubResource("RectangleShape2D_dtg4e")
+
+[node name="GrassAgain2" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="GrassAgain2"]
+position = Vector2(265, 570)
+scale = Vector2(5.26, 5.26)
+shape = SubResource("RectangleShape2D_dtg4e")
 
 [connection signal="animation_finished" from="Player/AnimatedSprite2D" to="Player" method="_on_animated_sprite_2d_animation_finished"]
 [connection signal="body_entered" from="Area2D" to="Player" method="_on_area_2d_body_entered"]
 [connection signal="body_entered" from="ForestCheckpoint" to="." method="_on_forest_checkpoint_body_entered"]
+[connection signal="body_entered" from="ForestAgain" to="." method="_on_forest_again_body_entered"]
 [connection signal="body_entered" from="GrassAgain" to="." method="_on_grass_again_body_entered"]
+[connection signal="body_entered" from="GrassAgain2" to="." method="_on_grass_again_body_entered"]
