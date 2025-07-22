@@ -139,7 +139,7 @@ func _physics_process(delta: float) -> void:
 			if collision and collision.get_collider() == spikes and not spike_cooldown:
 				spike_cooldown = true
 				take_damage(1)
-				await get_tree().create_timer(0.1).timeout
+				await get_tree().create_timer(0.05).timeout
 				spike_cooldown = false
 			elif collision and collision.get_collider() == healer and not healer_cooldown:
 				healer_cooldown = true
@@ -158,3 +158,9 @@ func _on_animated_sprite_2d_animation_finished() -> void:
 func _on_area_2d_body_entered(body: Node2D) -> void:
 	if body.is_in_group("player"):
 		take_damage(current_health)
+
+
+func _on_player_area_body_entered(body: Node2D) -> void:
+	print(body)
+	if body.is_in_group("rhino"):
+		take_damage(1)
