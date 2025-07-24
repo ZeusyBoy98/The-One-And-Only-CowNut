@@ -14,6 +14,7 @@ var camera_down = false
 var is_playing_temp_anim = false
 var spike_cooldown := false
 var healer_cooldown := false
+var rhino_cooldown := false
 var dash_cooldown = false
 var shoot_unlocked = false
 var double_jump_unlocked = false
@@ -32,6 +33,9 @@ func _ready():
 func take_damage(amount: int):
 	current_health = max(current_health - amount, 0)
 	emit_signal("health_changed", current_health)
+	sprite.modulate = Color(1, 0, 0)
+	await get_tree().create_timer(0.1).timeout
+	sprite.modulate = Color(1, 1, 1)
 
 func heal(amount: int):
 	current_health = min(current_health + amount, max_health)
@@ -146,6 +150,12 @@ func _physics_process(delta: float) -> void:
 				heal(max_health)
 				await get_tree().create_timer(3.0).timeout
 				healer_cooldown = false
+			elif collision and collision.get_collider().is_in_group("rhino"):
+				if not rhino_cooldown:
+					take_damage(1)
+					rhino_cooldown = true
+					await get_tree().create_timer(0.2).timeout
+					rhino_cooldown = false
 	else:
 		get_tree().change_scene_to_file("res://UI/ded.tscn")
 
@@ -154,13 +164,6 @@ func _on_animated_sprite_2d_animation_finished() -> void:
 	is_playing_temp_anim = false
 	sprite.play("idle")
 
-
 func _on_area_2d_body_entered(body: Node2D) -> void:
 	if body.is_in_group("player"):
 		take_damage(current_health)
-
-
-func _on_player_area_body_entered(body: Node2D) -> void:
-	print(body)
-	if body.is_in_group("rhino"):
-		take_damage(1)

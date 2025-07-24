@@ -12,6 +12,10 @@ extends ParallaxBackground
 @export var forest_grass_texture: Texture
 @export var forest_clouds_texture: Texture
 
+@export var desert_sky_texture: Texture
+@export var desert_grass_texture: Texture
+@export var desert_clouds_texture: Texture
+
 func change_background_to_forest():
 	sky_sprite.texture = forest_sky_texture
 	grass_sprite.texture = forest_grass_texture
@@ -21,3 +25,8 @@ func change_background_to_fields():
 	sky_sprite.texture = fields_sky_texture
 	grass_sprite.texture = fields_grass_texture
 	clouds_sprite.texture = fields_clouds_texture
+
+func change_background_to_desert():
+	sky_sprite.texture = desert_sky_texture
+	grass_sprite.texture = desert_grass_texture
+	clouds_sprite.texture = desert_clouds_texture

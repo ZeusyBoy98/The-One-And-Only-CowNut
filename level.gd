@@ -39,3 +39,7 @@ func _on_grass_again_body_entered(body: Node2D) -> void:
 
 func _on_forest_again_body_entered(body: Node2D) -> void:
 	parallax_background.change_background_to_forest()
+
+
+func _on_desert_again_body_entered(body: Node2D) -> void:
+	parallax_background.change_background_to_desert()
