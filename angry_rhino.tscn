@@ -1,0 +1,78 @@
+[gd_scene load_steps=11 format=3 uid="uid://1pf0bamqovqg"]
+
+[ext_resource type="Texture2D" uid="uid://dia8w5i1j2r20" path="res://Assets/Characters/Rhino/angry_rhino_idle.png" id="1_dj74h"]
+[ext_resource type="Script" uid="uid://mrusjwaq807j" path="res://angry_rhino.gd" id="1_km3bn"]
+[ext_resource type="Texture2D" uid="uid://d2r7x05qjxx8h" path="res://Assets/Characters/Rhino/angry_rhino_run.png" id="3_vnlyl"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_km3bn"]
+atlas = ExtResource("1_dj74h")
+region = Rect2(0, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_vnlyl"]
+atlas = ExtResource("1_dj74h")
+region = Rect2(64, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_0f6c1"]
+atlas = ExtResource("3_vnlyl")
+region = Rect2(0, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_gt7tq"]
+atlas = ExtResource("3_vnlyl")
+region = Rect2(64, 0, 64, 64)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_0f6c1"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_km3bn")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_vnlyl")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 2.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_0f6c1")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_gt7tq")
+}],
+"loop": true,
+"name": &"run",
+"speed": 5.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_vnlyl"]
+radius = 176.045
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_vnlyl"]
+size = Vector2(60, 64)
+
+[node name="angry_rhino" type="CharacterBody2D"]
+scale = Vector2(1.5, 1.5)
+script = ExtResource("1_km3bn")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+texture_filter = 1
+sprite_frames = SubResource("SpriteFrames_0f6c1")
+animation = &"run"
+frame_progress = 0.000721408
+offset = Vector2(0, -32)
+
+[node name="detector" type="Area2D" parent="."]
+collision_layer = 2
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="detector"]
+scale = Vector2(1, 0.48)
+shape = SubResource("CircleShape2D_vnlyl")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(2, -32)
+shape = SubResource("RectangleShape2D_vnlyl")
+
+[connection signal="body_entered" from="detector" to="." method="_on_detector_body_entered"]
+[connection signal="body_exited" from="detector" to="." method="_on_detector_body_exited"]

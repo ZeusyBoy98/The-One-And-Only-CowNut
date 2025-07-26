@@ -6,6 +6,8 @@ var contents_to_save: Dictionary = {
 	"pos_x": 0.0,
 	"pos_y": 0.0,
 	"current_health": 5,
+	"shoot_unlocked": false,
+	"dash_unlocked": false,
 }
 
 func _save():

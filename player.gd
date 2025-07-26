@@ -5,6 +5,7 @@ class_name Player
 @onready var collider = $CollisionShape2D
 @onready var spikes = get_parent().get_node("SpikeLayer")
 @onready var healer = get_parent().get_node("HealLayer")
+@onready var shoot_donut = get_parent().get_node("ShootLayer")
 @export var bullet : PackedScene
 @export var max_health := 5
 
@@ -28,6 +29,8 @@ func _ready():
 		position.x = Global.saved_data.pos_x
 		position.y = Global.saved_data.pos_y
 		current_health = Global.saved_data.current_health
+		shoot_unlocked =  Global.saved_data.shoot_unlocked
+		dash_unlocked =  Global.saved_data.dash_unlocked
 	emit_signal("health_changed", current_health)
 
 func take_damage(amount: int):
@@ -150,6 +153,8 @@ func _physics_process(delta: float) -> void:
 				heal(max_health)
 				await get_tree().create_timer(3.0).timeout
 				healer_cooldown = false
+			elif collision and collision.get_collider() == shoot_donut and not shoot_unlocked:
+				shoot_unlocked = true
 			elif collision and collision.get_collider().is_in_group("rhino"):
 				if not rhino_cooldown:
 					take_damage(1)
