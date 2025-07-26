@@ -31,6 +31,8 @@ func _on_forest_checkpoint_body_entered(body: Node2D) -> void:
 		SaveLoad.contents_to_save.pos_x = player.position.x
 		SaveLoad.contents_to_save.pos_y = player.position.y
 		SaveLoad.contents_to_save.current_health = player.current_health
+		SaveLoad.contents_to_save.dash_unlocked = player.dash_unlocked
+		SaveLoad.contents_to_save.shoot_unlocked = player.shoot_unlocked
 		SaveLoad._save()
 		parallax_background.change_background_to_forest()
 
@@ -54,3 +56,7 @@ func _on_desert_checkpoint_area_shape_entered(body: Node2D) -> void:
 		SaveLoad.contents_to_save.current_health = player.current_health
 		SaveLoad._save()
 		parallax_background.change_background_to_desert()
+
+
+func _on_volcano_again_body_entered(body: Node2D) -> void:
+	parallax_background.change_background_to_volcano()

@@ -6,6 +6,7 @@ class_name Player
 @onready var spikes = get_parent().get_node("SpikeLayer")
 @onready var healer = get_parent().get_node("HealLayer")
 @onready var shoot_donut = get_parent().get_node("ShootLayer")
+@onready var dash_donut = get_parent().get_node("DashLayer")
 @export var bullet : PackedScene
 @export var max_health := 5
 
@@ -155,6 +156,9 @@ func _physics_process(delta: float) -> void:
 				healer_cooldown = false
 			elif collision and collision.get_collider() == shoot_donut and not shoot_unlocked:
 				shoot_unlocked = true
+			elif collision and collision.get_collider() == dash_donut and not dash_unlocked:
+				print("hewo")
+				dash_unlocked = true
 			elif collision and collision.get_collider().is_in_group("rhino"):
 				if not rhino_cooldown:
 					take_damage(1)

@@ -25,3 +25,5 @@ func _load():
 		contents_to_save.pos_x = save_data.pos_x
 		contents_to_save.pos_y = save_data.pos_y
 		contents_to_save.current_health = save_data.current_health
+		contents_to_save.dash_unlocked = save_data.dash_unlocked
+		contents_to_save.shoot_unlocked = save_data.shoot_unlocked
