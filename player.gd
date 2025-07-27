@@ -7,11 +7,12 @@ class_name Player
 @onready var healer = get_parent().get_node("HealLayer")
 @onready var shoot_donut = get_parent().get_node("ShootLayer")
 @onready var dash_donut = get_parent().get_node("DashLayer")
+@onready var jump_donut = get_parent().get_node("JumpLayer")
 @export var bullet : PackedScene
 @export var max_health := 5
 
 var SPEED = 300.0
-const JUMP_VELOCITY = -400.0
+var JUMP_VELOCITY = -400.0
 var camera_down = false
 var is_playing_temp_anim = false
 var spike_cooldown := false
@@ -21,6 +22,7 @@ var dash_cooldown = false
 var shoot_unlocked = false
 var double_jump_unlocked = false
 var dash_unlocked = false
+var in_water = false
 var jump = 1
 signal health_changed(current_health: int)
 var current_health := max_health
@@ -32,6 +34,7 @@ func _ready():
 		current_health = Global.saved_data.current_health
 		shoot_unlocked =  Global.saved_data.shoot_unlocked
 		dash_unlocked =  Global.saved_data.dash_unlocked
+		double_jump_unlocked =  Global.saved_data.double_jump_unlocked
 	emit_signal("health_changed", current_health)
 
 func take_damage(amount: int):
@@ -71,7 +74,10 @@ func _physics_process(delta: float) -> void:
 						velocity.y = 0
 						sprite.stop()
 			else:
-				velocity.y += get_gravity().y * delta
+				if in_water:
+					velocity.y += (get_gravity().y - 400) * delta
+				else: 
+					velocity.y += get_gravity().y * delta
 		
 		if Input.is_action_just_pressed("jump"):
 			if is_on_floor():
@@ -157,8 +163,9 @@ func _physics_process(delta: float) -> void:
 			elif collision and collision.get_collider() == shoot_donut and not shoot_unlocked:
 				shoot_unlocked = true
 			elif collision and collision.get_collider() == dash_donut and not dash_unlocked:
-				print("hewo")
 				dash_unlocked = true
+			elif collision and collision.get_collider() == jump_donut and not double_jump_unlocked:
+				double_jump_unlocked = true
 			elif collision and collision.get_collider().is_in_group("rhino"):
 				if not rhino_cooldown:
 					take_damage(1)

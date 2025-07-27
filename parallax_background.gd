@@ -20,6 +20,10 @@ extends ParallaxBackground
 @export var volcano_grass_texture: Texture
 @export var volcano_clouds_texture: Texture
 
+@export var water_sky_texture: Texture
+@export var water_grass_texture: Texture
+@export var water_clouds_texture: Texture
+
 func change_background_to_forest():
 	sky_sprite.texture = forest_sky_texture
 	grass_sprite.texture = forest_grass_texture
@@ -39,3 +43,8 @@ func change_background_to_volcano():
 	sky_sprite.texture = volcano_sky_texture
 	grass_sprite.texture = volcano_grass_texture
 	clouds_sprite.texture = volcano_clouds_texture
+
+func change_background_to_water():
+	sky_sprite.texture = water_sky_texture
+	grass_sprite.texture = water_grass_texture
+	clouds_sprite.texture = water_clouds_texture

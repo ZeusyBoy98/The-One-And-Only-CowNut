@@ -8,6 +8,7 @@ var contents_to_save: Dictionary = {
 	"current_health": 5,
 	"shoot_unlocked": false,
 	"dash_unlocked": false,
+	"double_jump_unlocked": false,
 }
 
 func _save():
@@ -27,3 +28,4 @@ func _load():
 		contents_to_save.current_health = save_data.current_health
 		contents_to_save.dash_unlocked = save_data.dash_unlocked
 		contents_to_save.shoot_unlocked = save_data.shoot_unlocked
+		contents_to_save.double_jump_unlocked = save_data.double_jump_unlocked

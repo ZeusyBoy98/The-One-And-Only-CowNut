@@ -1,0 +1,57 @@
+[gd_scene load_steps=8 format=3 uid="uid://iof8vco60i6f"]
+
+[ext_resource type="Script" uid="uid://cem03gxc6hiy4" path="res://fire_rhino.gd" id="1_y7b83"]
+[ext_resource type="Texture2D" uid="uid://ce4440ywjwvle" path="res://Assets/Characters/Rhino/fire_rhino_run.png" id="2_vb683"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_qq6f6"]
+atlas = ExtResource("2_vb683")
+region = Rect2(0, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_kpbpo"]
+atlas = ExtResource("2_vb683")
+region = Rect2(64, 0, 64, 64)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_0f6c1"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_qq6f6")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_kpbpo")
+}],
+"loop": true,
+"name": &"run",
+"speed": 5.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_vnlyl"]
+radius = 176.045
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_vnlyl"]
+size = Vector2(60, 64)
+
+[node name="angry_rhino" type="CharacterBody2D"]
+scale = Vector2(1.5, 1.5)
+script = ExtResource("1_y7b83")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+texture_filter = 1
+sprite_frames = SubResource("SpriteFrames_0f6c1")
+animation = &"run"
+offset = Vector2(0, -32)
+
+[node name="detector" type="Area2D" parent="."]
+collision_layer = 2
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="detector"]
+scale = Vector2(0.71, 0.48)
+shape = SubResource("CircleShape2D_vnlyl")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(2, -32)
+shape = SubResource("RectangleShape2D_vnlyl")
+
+[connection signal="body_entered" from="detector" to="." method="_on_detector_body_entered"]
+[connection signal="body_exited" from="detector" to="." method="_on_detector_body_exited"]
