@@ -1,24 +1,24 @@
 [gd_scene load_steps=8 format=3 uid="uid://iof8vco60i6f"]
 
-[ext_resource type="Script" uid="uid://cem03gxc6hiy4" path="res://fire_rhino.gd" id="1_y7b83"]
-[ext_resource type="Texture2D" uid="uid://ce4440ywjwvle" path="res://Assets/Characters/Rhino/fire_rhino_run.png" id="2_vb683"]
+[ext_resource type="Script" uid="uid://2g4np0fmng1o" path="res://water_rhino.gd" id="1_pljtj"]
+[ext_resource type="Texture2D" uid="uid://8mhpcdtqeupw" path="res://Assets/Characters/Rhino/water_rhino_run.png" id="2_pljtj"]
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_qq6f6"]
-atlas = ExtResource("2_vb683")
+[sub_resource type="AtlasTexture" id="AtlasTexture_ee8el"]
+atlas = ExtResource("2_pljtj")
 region = Rect2(0, 0, 64, 64)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_kpbpo"]
-atlas = ExtResource("2_vb683")
+[sub_resource type="AtlasTexture" id="AtlasTexture_7vhqd"]
+atlas = ExtResource("2_pljtj")
 region = Rect2(64, 0, 64, 64)
 
-[sub_resource type="SpriteFrames" id="SpriteFrames_0f6c1"]
+[sub_resource type="SpriteFrames" id="SpriteFrames_vl86i"]
 animations = [{
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_qq6f6")
+"texture": SubResource("AtlasTexture_ee8el")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_kpbpo")
+"texture": SubResource("AtlasTexture_7vhqd")
 }],
 "loop": true,
 "name": &"run",
@@ -33,12 +33,13 @@ size = Vector2(60, 64)
 
 [node name="angry_rhino" type="CharacterBody2D"]
 scale = Vector2(1.5, 1.5)
-script = ExtResource("1_y7b83")
+script = ExtResource("1_pljtj")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 texture_filter = 1
-sprite_frames = SubResource("SpriteFrames_0f6c1")
+sprite_frames = SubResource("SpriteFrames_vl86i")
 animation = &"run"
+frame_progress = 0.370032
 offset = Vector2(0, -32)
 
 [node name="detector" type="Area2D" parent="."]

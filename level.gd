@@ -22,6 +22,7 @@ func pause_game():
 	SaveLoad.contents_to_save.current_health = player.current_health
 	SaveLoad.contents_to_save.dash_unlocked = player.dash_unlocked
 	SaveLoad.contents_to_save.shoot_unlocked = player.shoot_unlocked
+	SaveLoad.contents_to_save.double_jump_unlocked = player.double_jump_unlocked
 	SaveLoad._save()
 	get_tree().paused = true
 	paused.show()
@@ -33,6 +34,7 @@ func _on_forest_checkpoint_body_entered(body: Node2D) -> void:
 		SaveLoad.contents_to_save.current_health = player.current_health
 		SaveLoad.contents_to_save.dash_unlocked = player.dash_unlocked
 		SaveLoad.contents_to_save.shoot_unlocked = player.shoot_unlocked
+		SaveLoad.contents_to_save.double_jump_unlocked = player.double_jump_unlocked
 		SaveLoad._save()
 		parallax_background.change_background_to_forest()
 
