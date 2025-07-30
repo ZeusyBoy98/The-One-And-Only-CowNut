@@ -47,9 +47,11 @@ func _physics_process(delta: float) -> void:
 	move_and_slide()
 
 func _on_detector_body_entered(body: Node2D) -> void:
-	player = body
-	player_chase = true
+	if body.is_in_group("player"):
+		player = body
+		player_chase = true
 
 func _on_detector_body_exited(body: Node2D) -> void:
-	player = null
-	player_chase = false
+	if body.is_in_group("player"):
+		player = null
+		player_chase = false
