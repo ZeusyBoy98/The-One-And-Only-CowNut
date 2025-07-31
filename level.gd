@@ -38,18 +38,17 @@ func _on_forest_checkpoint_body_entered(body: Node2D) -> void:
 		SaveLoad._save()
 		parallax_background.change_background_to_forest()
 
-
 func _on_grass_again_body_entered(body: Node2D) -> void:
-	parallax_background.change_background_to_fields()
-
+	if body.is_in_group("player"):
+		parallax_background.change_background_to_fields()
 
 func _on_forest_again_body_entered(body: Node2D) -> void:
-	parallax_background.change_background_to_forest()
-
+	if body.is_in_group("player"):
+		parallax_background.change_background_to_forest()
 
 func _on_desert_again_body_entered(body: Node2D) -> void:
-	parallax_background.change_background_to_desert()
-
+	if body.is_in_group("player"):
+		parallax_background.change_background_to_desert()
 
 func _on_desert_checkpoint_area_shape_entered(body: Node2D) -> void:
 	if body.is_in_group("player"):
@@ -62,9 +61,9 @@ func _on_desert_checkpoint_area_shape_entered(body: Node2D) -> void:
 		SaveLoad._save()
 		parallax_background.change_background_to_desert()
 
-
 func _on_volcano_again_body_entered(body: Node2D) -> void:
-	parallax_background.change_background_to_volcano()
+	if body.is_in_group("player"):
+		parallax_background.change_background_to_volcano()
 
 func _on_water_again_body_entered(body: Node2D) -> void:
 	if body.is_in_group("player"):
@@ -76,3 +75,8 @@ func _on_water_again_body_exited(body: Node2D) -> void:
 	if body.is_in_group("player"):
 		print("exit")
 		player.in_water = false
+
+
+func _on_cave_again_body_entered(body: Node2D) -> void:
+	if body.is_in_group("player"):
+		parallax_background.change_background_to_cave()
