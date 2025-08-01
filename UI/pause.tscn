@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=3 uid="uid://dlpnquhllfwnq"]
+[gd_scene load_steps=9 format=3 uid="uid://dlpnquhllfwnq"]
 
 [ext_resource type="Script" uid="uid://d2sr3w4vxmuxo" path="res://UI/paused.gd" id="1_jixca"]
 [ext_resource type="FontFile" uid="uid://cred5kkuhlamq" path="res://RobotoMono-Regular.ttf" id="1_mbtqa"]
@@ -20,6 +20,14 @@ font = ExtResource("1_mbtqa")
 font_size = 66
 
 [sub_resource type="LabelSettings" id="LabelSettings_jl6cd"]
+font = ExtResource("1_mbtqa")
+font_size = 31
+
+[sub_resource type="LabelSettings" id="LabelSettings_ocodi"]
+font = ExtResource("1_mbtqa")
+font_size = 22
+
+[sub_resource type="LabelSettings" id="LabelSettings_85lix"]
 font = ExtResource("1_mbtqa")
 font_size = 31
 
@@ -65,6 +73,12 @@ text = "Game Automatically Saved"
 label_settings = SubResource("LabelSettings_jl6cd")
 horizontal_alignment = 1
 
+[node name="Saved2" type="Label" parent="PanelContainer/MarginContainer/Rows/CenterContainer/VBoxContainer"]
+layout_mode = 2
+text = "If controller is not working to navigate this screen, use mouse or touchscreen"
+label_settings = SubResource("LabelSettings_ocodi")
+horizontal_alignment = 1
+
 [node name="Resume" type="Button" parent="PanelContainer/MarginContainer/Rows/CenterContainer/VBoxContainer"]
 layout_mode = 2
 theme_override_fonts/font = ExtResource("1_mbtqa")
@@ -78,6 +92,18 @@ theme_override_fonts/font = ExtResource("1_mbtqa")
 theme_override_font_sizes/font_size = 40
 text = "QUIT"
 script = ExtResource("3_jl6cd")
+
+[node name="Title" type="Label" parent="PanelContainer/MarginContainer/Rows/CenterContainer/VBoxContainer"]
+layout_mode = 2
+text = "Keybinds:
+Pause - Esc, controller pause button
+Movement - A&D, Arrow Keys, Left Stick
+Jump - Space bar, arrow up, bottom action on controller
+Shoot* - x key, right trigger
+Dash* - z key, left trigger
+
+*Will be unlocked at some point in the game"
+label_settings = SubResource("LabelSettings_85lix")
 
 [connection signal="pressed" from="PanelContainer/MarginContainer/Rows/CenterContainer/VBoxContainer/Resume" to="." method="_on_resume_pressed"]
 [connection signal="pressed" from="PanelContainer/MarginContainer/Rows/CenterContainer/VBoxContainer/Quit" to="." method="_on_quit_pressed"]

@@ -16,6 +16,8 @@ func _physics_process(delta):
 func _on_body_entered(body) -> void:
 	if body.is_in_group("player"):
 		return
-	if body.is_in_group("rhino"):
+	if body.is_in_group("rhino") and not body.is_in_group("boss"):
 		body.queue_free()
+	if body.is_in_group("boss"):
+		body.take_damage(1)
 	queue_free()

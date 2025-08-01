@@ -1,4 +1,4 @@
-[gd_scene load_steps=6 format=3 uid="uid://bwg8ko38yut47"]
+[gd_scene load_steps=7 format=3 uid="uid://bwg8ko38yut47"]
 
 [ext_resource type="Script" uid="uid://3ftq64e8vmei" path="res://UI/start.gd" id="1_ihdn3"]
 [ext_resource type="FontFile" uid="uid://cred5kkuhlamq" path="res://RobotoMono-Regular.ttf" id="1_mbtqa"]
@@ -18,6 +18,10 @@ corner_radius_bottom_left = 20
 [sub_resource type="LabelSettings" id="LabelSettings_ivbrw"]
 font = ExtResource("1_mbtqa")
 font_size = 66
+
+[sub_resource type="LabelSettings" id="LabelSettings_5ota6"]
+font = ExtResource("1_mbtqa")
+font_size = 21
 
 [node name="start" type="CanvasLayer"]
 script = ExtResource("1_ihdn3")
@@ -54,6 +58,14 @@ layout_mode = 2
 layout_mode = 2
 theme_override_constants/separation = 20
 
+[node name="Title2" type="Label" parent="PanelContainer/MarginContainer/Rows/CenterContainer/VBoxContainer"]
+layout_mode = 2
+text = "In Order To Start a new game,
+close and reopen the game,
+ then press \"NEW\""
+label_settings = SubResource("LabelSettings_5ota6")
+horizontal_alignment = 1
+
 [node name="New" type="Button" parent="PanelContainer/MarginContainer/Rows/CenterContainer/VBoxContainer"]
 layout_mode = 2
 theme_override_fonts/font = ExtResource("1_mbtqa")
@@ -66,13 +78,6 @@ layout_mode = 2
 theme_override_fonts/font = ExtResource("1_mbtqa")
 theme_override_font_sizes/font_size = 40
 text = "LOAD"
-script = ExtResource("3_jl6cd")
-
-[node name="Options" type="Button" parent="PanelContainer/MarginContainer/Rows/CenterContainer/VBoxContainer"]
-layout_mode = 2
-theme_override_fonts/font = ExtResource("1_mbtqa")
-theme_override_font_sizes/font_size = 40
-text = "OPTIONS"
 script = ExtResource("3_jl6cd")
 
 [node name="Quit" type="Button" parent="PanelContainer/MarginContainer/Rows/CenterContainer/VBoxContainer"]

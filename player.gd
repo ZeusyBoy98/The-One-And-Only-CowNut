@@ -24,6 +24,7 @@ var double_jump_unlocked = false
 var dash_unlocked = false
 var in_water = false
 var jump = 1
+var in_end_cutscene = false
 signal health_changed(current_health: int)
 var current_health := max_health
 
@@ -64,114 +65,117 @@ func shoot():
 
 func _physics_process(delta: float) -> void:
 	if current_health > 0:
-		if not is_on_floor():
-			if is_on_wall():
-				if not is_playing_temp_anim:
-					if Input.is_action_pressed("jump"):
-						velocity.y = JUMP_VELOCITY
-						sprite.play("climb")
-					elif velocity.y < 0:
-						velocity.y = 0
-						sprite.stop()
-			else:
-				if in_water:
-					velocity.y += (get_gravity().y - 400) * delta
-				else: 
-					velocity.y += get_gravity().y * delta
-		
-		if Input.is_action_just_pressed("jump"):
-			if is_on_floor():
-				jump = 1
-				velocity.y = JUMP_VELOCITY
-				if not is_playing_temp_anim:
-					sprite.play("jump")
-					get_tree().create_timer(0.2).timeout
-					sprite.stop()
-			elif jump == 1:
-				if double_jump_unlocked:
-					jump = 2
+		if not in_end_cutscene:
+			if not is_on_floor():
+				if is_on_wall():
+					if not is_playing_temp_anim:
+						if Input.is_action_pressed("jump"):
+							velocity.y = JUMP_VELOCITY
+							sprite.play("climb")
+						elif velocity.y < 0:
+							velocity.y = 0
+							sprite.stop()
+				else:
+					if in_water:
+						velocity.y += (get_gravity().y - 400) * delta
+					else: 
+						velocity.y += get_gravity().y * delta
+			
+			if Input.is_action_just_pressed("jump"):
+				if is_on_floor():
+					jump = 1
 					velocity.y = JUMP_VELOCITY
 					if not is_playing_temp_anim:
 						sprite.play("jump")
 						get_tree().create_timer(0.2).timeout
 						sprite.stop()
-			elif is_on_wall():
-				velocity.y = JUMP_VELOCITY
-				if not is_playing_temp_anim:
-					sprite.play("jump")
+				elif jump == 1:
+					if double_jump_unlocked:
+						jump = 2
+						velocity.y = JUMP_VELOCITY
+						if not is_playing_temp_anim:
+							sprite.play("jump")
+							get_tree().create_timer(0.2).timeout
+							sprite.stop()
+				elif is_on_wall():
+					velocity.y = JUMP_VELOCITY
+					if not is_playing_temp_anim:
+						sprite.play("jump")
 
-		var direction := Input.get_axis("left", "right")
-		if direction:
-			velocity.x = direction * SPEED
-			sprite.flip_h = direction > 0
-			if not is_on_wall():
-				if not is_playing_temp_anim:
-					sprite.play("run")
-		else:
-			velocity.x = move_toward(velocity.x, 0, SPEED)
-			if is_on_wall():
-				if not is_playing_temp_anim:
-					sprite.stop()
-			else:
-				if not is_playing_temp_anim:
-					sprite.play("idle")
-		if shoot_unlocked:
-			if Input.is_action_just_pressed("shoot"):
+			var direction := Input.get_axis("left", "right")
+			if direction:
+				velocity.x = direction * SPEED
+				sprite.flip_h = direction > 0
 				if not is_on_wall():
-					print(current_health)
-					if current_health > 0:
-						play_once("shoot")
-						shoot()
-						take_damage(1)
-					
-		if Input.is_action_just_pressed("dash"):
-			if dash_unlocked:
-				if not dash_cooldown:
-					SPEED = 900
-					sprite.play("dash")
-					is_playing_temp_anim = true
-					await get_tree().create_timer(0.2).timeout
-					SPEED = 300
-					is_playing_temp_anim = false
-					dash_cooldown = true
-					await get_tree().create_timer(0.5).timeout
-					dash_cooldown = false
-		
-		if Input.is_action_just_pressed("down"):
-			if not camera_down:
-				camera_down = true
-				camera.position_smoothing_enabled = true
-				camera.position.y += 200
-				await get_tree().create_timer(1).timeout
-				camera.position.y -= 200
-				camera.position_smoothing_enabled = false
-				camera_down = false
-		
-		move_and_slide()
-		for i in range(get_slide_collision_count()):
-			var collision := get_slide_collision(i)
-			if collision and collision.get_collider() == spikes and not spike_cooldown:
-				spike_cooldown = true
-				take_damage(1)
-				await get_tree().create_timer(0.05).timeout
-				spike_cooldown = false
-			elif collision and collision.get_collider() == healer and not healer_cooldown:
-				healer_cooldown = true
-				heal(max_health)
-				await get_tree().create_timer(3.0).timeout
-				healer_cooldown = false
-			elif collision and collision.get_collider() == shoot_donut and not shoot_unlocked:
-				shoot_unlocked = true
-			elif collision and collision.get_collider() == dash_donut and not dash_unlocked:
-				dash_unlocked = true
-			elif collision and collision.get_collider() == jump_donut and not double_jump_unlocked:
-				double_jump_unlocked = true
-			elif collision and collision.get_collider().is_in_group("rhino"):
-				if not rhino_cooldown:
+					if not is_playing_temp_anim:
+						sprite.play("run")
+			else:
+				velocity.x = move_toward(velocity.x, 0, SPEED)
+				if is_on_wall():
+					if not is_playing_temp_anim:
+						sprite.stop()
+				else:
+					if not is_playing_temp_anim:
+						sprite.play("idle")
+			if shoot_unlocked:
+				if Input.is_action_just_pressed("shoot"):
+					if not is_on_wall():
+						print(current_health)
+						if current_health > 0:
+							play_once("shoot")
+							shoot()
+							take_damage(1)
+						
+			if Input.is_action_just_pressed("dash"):
+				if dash_unlocked:
+					if not dash_cooldown:
+						SPEED = 900
+						sprite.play("dash")
+						is_playing_temp_anim = true
+						await get_tree().create_timer(0.2).timeout
+						SPEED = 300
+						is_playing_temp_anim = false
+						dash_cooldown = true
+						await get_tree().create_timer(0.5).timeout
+						dash_cooldown = false
+			
+			if Input.is_action_just_pressed("down"):
+				if not camera_down:
+					camera_down = true
+					camera.position_smoothing_enabled = true
+					camera.position.y += 200
+					await get_tree().create_timer(1).timeout
+					camera.position.y -= 200
+					camera.position_smoothing_enabled = false
+					camera_down = false
+			
+			move_and_slide()
+			for i in range(get_slide_collision_count()):
+				var collision := get_slide_collision(i)
+				if collision and collision.get_collider() == spikes and not spike_cooldown:
+					spike_cooldown = true
 					take_damage(1)
-					rhino_cooldown = true
-					await get_tree().create_timer(0.2).timeout
-					rhino_cooldown = false
+					await get_tree().create_timer(0.05).timeout
+					spike_cooldown = false
+				elif collision and collision.get_collider() == healer and not healer_cooldown:
+					healer_cooldown = true
+					heal(max_health)
+					await get_tree().create_timer(3.0).timeout
+					healer_cooldown = false
+				elif collision and collision.get_collider() == shoot_donut and not shoot_unlocked:
+					shoot_unlocked = true
+				elif collision and collision.get_collider() == dash_donut and not dash_unlocked:
+					dash_unlocked = true
+				elif collision and collision.get_collider() == jump_donut and not double_jump_unlocked:
+					double_jump_unlocked = true
+				elif collision and collision.get_collider().is_in_group("rhino"):
+					if not rhino_cooldown:
+						take_damage(1)
+						rhino_cooldown = true
+						await get_tree().create_timer(0.2).timeout
+						rhino_cooldown = false
+		else:
+			velocity.y += get_gravity().y * delta
 	else:
 		get_tree().change_scene_to_file("res://UI/ded.tscn")
 

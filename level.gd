@@ -80,3 +80,13 @@ func _on_water_again_body_exited(body: Node2D) -> void:
 func _on_cave_again_body_entered(body: Node2D) -> void:
 	if body.is_in_group("player"):
 		parallax_background.change_background_to_cave()
+
+
+func _on_grass_again_4_body_entered(body: Node2D) -> void:
+	if body.is_in_group("player"):
+		parallax_background.change_background_to_fields()
+		body.velocity.x = 1 * 300
+		body.sprite.flip_h = true
+		body.in_end_cutscene = true
+		await get_tree().create_timer(5.0).timeout
+		get_tree().change_scene_to_file("res://UI/start.tscn")

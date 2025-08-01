@@ -1,0 +1,77 @@
+[gd_scene load_steps=11 format=3 uid="uid://ctclbvvjqkenl"]
+
+[ext_resource type="Script" uid="uid://diyjx0ys5cyyp" path="res://boss_rhino.gd" id="1_wp3rg"]
+[ext_resource type="PackedScene" uid="uid://box2tfsuri7lb" path="res://boss_bullet.tscn" id="2_tahb0"]
+[ext_resource type="Texture2D" uid="uid://cupwx28qb0st8" path="res://Assets/Characters/Rhino/boss_rhino_run.png" id="2_wp3rg"]
+[ext_resource type="FontFile" uid="uid://cred5kkuhlamq" path="res://RobotoMono-Regular.ttf" id="4_sks4q"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_tahb0"]
+atlas = ExtResource("2_wp3rg")
+region = Rect2(0, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_sks4q"]
+atlas = ExtResource("2_wp3rg")
+region = Rect2(64, 0, 64, 64)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_qn320"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_tahb0")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_sks4q")
+}],
+"loop": true,
+"name": &"run",
+"speed": 5.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_k2a4r"]
+radius = 417.296
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_x1rxj"]
+size = Vector2(180, 394.667)
+
+[sub_resource type="LabelSettings" id="LabelSettings_qn320"]
+font = ExtResource("4_sks4q")
+
+[node name="angry_rhino" type="CharacterBody2D"]
+scale = Vector2(1.5, 1.5)
+script = ExtResource("1_wp3rg")
+bullet = ExtResource("2_tahb0")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+texture_filter = 1
+scale = Vector2(3, 3)
+sprite_frames = SubResource("SpriteFrames_qn320")
+animation = &"run"
+frame = 1
+frame_progress = 0.707846
+offset = Vector2(0, -32)
+
+[node name="detector" type="Area2D" parent="."]
+collision_layer = 2
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="detector"]
+scale = Vector2(0.71, 0.48)
+shape = SubResource("CircleShape2D_k2a4r")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(6, -197.333)
+shape = SubResource("RectangleShape2D_x1rxj")
+
+[node name="Marker2D" type="Marker2D" parent="."]
+position = Vector2(88.6667, -18)
+
+[node name="Label" type="Label" parent="."]
+offset_left = -70.0
+offset_top = -219.333
+offset_right = -21.0
+offset_bottom = -196.333
+text = "20/20"
+label_settings = SubResource("LabelSettings_qn320")
+
+[connection signal="body_entered" from="detector" to="." method="_on_detector_body_entered"]
+[connection signal="body_exited" from="detector" to="." method="_on_detector_body_exited"]
