@@ -1,7 +1,8 @@
-[gd_scene load_steps=7 format=3 uid="uid://bwg8ko38yut47"]
+[gd_scene load_steps=8 format=3 uid="uid://bwg8ko38yut47"]
 
 [ext_resource type="Script" uid="uid://3ftq64e8vmei" path="res://UI/start.gd" id="1_ihdn3"]
 [ext_resource type="FontFile" uid="uid://cred5kkuhlamq" path="res://RobotoMono-Regular.ttf" id="1_mbtqa"]
+[ext_resource type="AudioStream" uid="uid://ddjfqfhocsjbd" path="res://Assets/Audio/Menu Theme.mp3" id="2_nt67a"]
 [ext_resource type="Script" uid="uid://bfsrbukmda0q3" path="res://UI/button.gd" id="3_jl6cd"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_x5u11"]
@@ -25,6 +26,12 @@ font_size = 21
 
 [node name="start" type="CanvasLayer"]
 script = ExtResource("1_ihdn3")
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("2_nt67a")
+volume_db = -6.0
+autoplay = true
+parameters/looping = true
 
 [node name="PanelContainer" type="PanelContainer" parent="."]
 anchors_preset = 15

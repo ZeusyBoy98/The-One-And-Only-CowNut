@@ -11,7 +11,7 @@ var change = false
 var choice
 var rhino = preload("res://enemy.tscn")
 var wait = false
-var health = 1
+var health = 15
 var direction = -1
 
 func _ready() -> void:
@@ -25,7 +25,7 @@ func take_damage(d: int):
 
 func _physics_process(delta: float) -> void:
 	if health > 0:
-		label.text = str(health) + "/20"
+		label.text = str(health) + "/15"
 		if not is_on_floor():
 			velocity.y += get_gravity().y * delta
 		velocity.x = direction * SPEED
@@ -70,9 +70,11 @@ func _physics_process(delta: float) -> void:
 		self.queue_free()
 
 func _on_detector_body_entered(body: Node2D) -> void:
-	player = body
-	player_chase = true
+	if body.is_in_group("player"):
+		player = body
+		player_chase = true
 
 func _on_detector_body_exited(body: Node2D) -> void:
-	player = null
-	player_chase = false
+	if body.is_in_group("player"):
+		player = null
+		player_chase = false

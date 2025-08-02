@@ -1,9 +1,10 @@
-[gd_scene load_steps=11 format=3 uid="uid://ctclbvvjqkenl"]
+[gd_scene load_steps=12 format=3 uid="uid://ctclbvvjqkenl"]
 
 [ext_resource type="Script" uid="uid://diyjx0ys5cyyp" path="res://boss_rhino.gd" id="1_wp3rg"]
 [ext_resource type="PackedScene" uid="uid://box2tfsuri7lb" path="res://boss_bullet.tscn" id="2_tahb0"]
 [ext_resource type="Texture2D" uid="uid://cupwx28qb0st8" path="res://Assets/Characters/Rhino/boss_rhino_run.png" id="2_wp3rg"]
 [ext_resource type="FontFile" uid="uid://cred5kkuhlamq" path="res://RobotoMono-Regular.ttf" id="4_sks4q"]
+[ext_resource type="AudioStream" uid="uid://dmdk0e511w2jg" path="res://Assets/Audio/SFX/boss.mp3" id="5_qn320"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_tahb0"]
 atlas = ExtResource("2_wp3rg")
@@ -74,6 +75,13 @@ offset_right = -21.0
 offset_bottom = -196.333
 text = "20/20"
 label_settings = SubResource("LabelSettings_qn320")
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
+position = Vector2(0.666667, 0)
+stream = ExtResource("5_qn320")
+autoplay = true
+attenuation = 5.09824
+parameters/looping = true
 
 [connection signal="body_entered" from="detector" to="." method="_on_detector_body_entered"]
 [connection signal="body_exited" from="detector" to="." method="_on_detector_body_exited"]

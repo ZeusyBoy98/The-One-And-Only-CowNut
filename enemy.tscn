@@ -1,7 +1,8 @@
-[gd_scene load_steps=7 format=3 uid="uid://b1mhlaypngh7q"]
+[gd_scene load_steps=8 format=3 uid="uid://b1mhlaypngh7q"]
 
 [ext_resource type="Script" uid="uid://bsh05037mmjbr" path="res://enemy.gd" id="1_4gyqm"]
 [ext_resource type="Texture2D" uid="uid://xsdeedrvbe3g" path="res://Assets/Characters/Rhino/rhino-run.png" id="1_7k104"]
+[ext_resource type="AudioStream" uid="uid://bnmd03nmqp2ct" path="res://Assets/Audio/SFX/RubberDuckSqueak.mp3" id="3_qi2p4"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_4gyqm"]
 atlas = ExtResource("1_7k104")
@@ -41,3 +42,9 @@ animation = &"walking"
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(0.5, 0.25)
 shape = SubResource("RectangleShape2D_epg4t")
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("3_qi2p4")
+autoplay = true
+attenuation = 6.06286
+parameters/looping = true

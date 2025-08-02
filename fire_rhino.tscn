@@ -1,7 +1,8 @@
-[gd_scene load_steps=8 format=3 uid="uid://bw0lp4hav0hm4"]
+[gd_scene load_steps=9 format=3 uid="uid://bw0lp4hav0hm4"]
 
 [ext_resource type="Script" uid="uid://cem03gxc6hiy4" path="res://fire_rhino.gd" id="1_y7b83"]
 [ext_resource type="Texture2D" uid="uid://ce4440ywjwvle" path="res://Assets/Characters/Rhino/fire_rhino_run.png" id="2_vb683"]
+[ext_resource type="AudioStream" uid="uid://swfudhmty24q" path="res://Assets/Audio/SFX/growl.mp3" id="3_vb683"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_qq6f6"]
 atlas = ExtResource("2_vb683")
@@ -54,6 +55,13 @@ shape = SubResource("CircleShape2D_vnlyl")
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(2, -32)
 shape = SubResource("RectangleShape2D_vnlyl")
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("3_vb683")
+volume_db = 5.0
+autoplay = true
+attenuation = 5.27803
+parameters/looping = true
 
 [connection signal="body_entered" from="detector" to="." method="_on_detector_body_entered"]
 [connection signal="body_exited" from="detector" to="." method="_on_detector_body_exited"]
