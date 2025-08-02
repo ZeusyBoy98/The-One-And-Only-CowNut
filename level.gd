@@ -67,13 +67,11 @@ func _on_volcano_again_body_entered(body: Node2D) -> void:
 
 func _on_water_again_body_entered(body: Node2D) -> void:
 	if body.is_in_group("player"):
-		print("enter")
 		player.in_water = true
 		parallax_background.change_background_to_water()
 
 func _on_water_again_body_exited(body: Node2D) -> void:
 	if body.is_in_group("player"):
-		print("exit")
 		player.in_water = false
 
 

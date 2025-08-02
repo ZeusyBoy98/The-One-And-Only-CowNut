@@ -27,6 +27,12 @@ var jump = 1
 var in_end_cutscene = false
 signal health_changed(current_health: int)
 var current_health := max_health
+var spike_active = false
+var heal_active = false
+var shoot_active = false
+var dash_active = false
+var jump_active = false
+var rhino_active = false
 
 func _ready():
 	if Global.saved_data != null:
@@ -120,7 +126,6 @@ func _physics_process(delta: float) -> void:
 			if shoot_unlocked:
 				if Input.is_action_just_pressed("shoot"):
 					if not is_on_wall():
-						print(current_health)
 						if current_health > 0:
 							play_once("shoot")
 							shoot()
@@ -150,30 +155,51 @@ func _physics_process(delta: float) -> void:
 					camera_down = false
 			
 			move_and_slide()
-			for i in range(get_slide_collision_count()):
-				var collision := get_slide_collision(i)
-				if collision and collision.get_collider() == spikes and not spike_cooldown:
-					spike_cooldown = true
-					take_damage(1)
-					await get_tree().create_timer(0.05).timeout
-					spike_cooldown = false
-				elif collision and collision.get_collider() == healer and not healer_cooldown:
-					healer_cooldown = true
-					heal(max_health)
-					await get_tree().create_timer(3.0).timeout
-					healer_cooldown = false
-				elif collision and collision.get_collider() == shoot_donut and not shoot_unlocked:
-					shoot_unlocked = true
-				elif collision and collision.get_collider() == dash_donut and not dash_unlocked:
-					dash_unlocked = true
-				elif collision and collision.get_collider() == jump_donut and not double_jump_unlocked:
-					double_jump_unlocked = true
-				elif collision and collision.get_collider().is_in_group("rhino"):
-					if not rhino_cooldown:
-						take_damage(1)
-						rhino_cooldown = true
-						await get_tree().create_timer(0.2).timeout
-						rhino_cooldown = false
+			if spike_active and not spike_cooldown:
+				spike_cooldown = true
+				take_damage(1)
+				await get_tree().create_timer(0.2).timeout
+				spike_cooldown = false
+			elif heal_active and not healer_cooldown:
+				healer_cooldown = true
+				heal(max_health)
+				await get_tree().create_timer(3.0).timeout
+				healer_cooldown = false
+			elif shoot_active:
+				shoot_unlocked = true
+			elif dash_active:
+				dash_unlocked = true
+			elif jump_active:
+				double_jump_unlocked = true
+			elif rhino_active and not rhino_cooldown:
+				take_damage(1)
+				rhino_cooldown = true
+				await get_tree().create_timer(0.2).timeout
+				rhino_cooldown = false
+			#for i in range(get_slide_collision_count()):
+			#	var collision := get_slide_collision(i)
+			#	if collision and collision.get_collider() == spikes and not spike_cooldown:
+			#		spike_cooldown = true
+			#		take_damage(1)
+			#		await get_tree().create_timer(0.05).timeout
+			#		spike_cooldown = false
+			#	elif collision and collision.get_collider() == healer and not healer_cooldown:
+			#		healer_cooldown = true
+			#		heal(max_health)
+			#		await get_tree().create_timer(3.0).timeout
+			#		healer_cooldown = false
+			#	elif collision and collision.get_collider() == shoot_donut and not shoot_unlocked:
+			#		shoot_unlocked = true
+			#	elif collision and collision.get_collider() == dash_donut and not dash_unlocked:
+			#		dash_unlocked = true
+			#	elif collision and collision.get_collider() == jump_donut and not double_jump_unlocked:
+			#		double_jump_unlocked = true
+			#	elif collision and collision.get_collider().is_in_group("rhino"):
+			#		if not rhino_cooldown:
+			#			take_damage(1)
+			#			rhino_cooldown = true
+			#			await get_tree().create_timer(0.2).timeout
+			#			rhino_cooldown = false
 		else:
 			velocity.y += get_gravity().y * delta
 	else:
@@ -187,3 +213,32 @@ func _on_animated_sprite_2d_animation_finished() -> void:
 func _on_area_2d_body_entered(body: Node2D) -> void:
 	if body.is_in_group("player"):
 		take_damage(current_health)
+
+
+func _on_collider_body_entered(body: Node2D) -> void:
+	if body == spikes and not spike_cooldown:
+		spike_active = true
+	elif body == healer and not healer_cooldown:
+		heal_active  = true
+	elif body == shoot_donut and not shoot_unlocked:
+		shoot_active = true
+	elif body == dash_donut and not dash_unlocked:
+		dash_active = true
+	elif body == jump_donut and not double_jump_unlocked:
+		jump_active = true
+	elif body.is_in_group("rhino"):
+		rhino_active = true
+
+func _on_collider_body_exited(body: Node2D) -> void:
+	if body == spikes:
+		spike_active = false
+	elif body == healer:
+		heal_active  = false
+	elif body == shoot_donut:
+		shoot_active = false
+	elif body == dash_donut:
+		dash_active = false
+	elif body == jump_donut:
+		jump_active = false
+	elif body.is_in_group("rhino"):
+		rhino_active = false
